@@ -6,17 +6,17 @@ import (
 
 // Rule is the simplest redirection rule: for a given URI redirect to a destination URL
 type Rule struct {
-	httpStatus int    `json:"http_status"`
-	source     string `json:"source"`
-	target     string `json:"target"`
+	HttpStatus int    `json:"http_status"`
+	Source     string `json:"source"`
+	Target     string `json:"target"`
 }
 
 // NewRule creates a new rule from the provided parameters
 func NewRule(sourceURI, targetURL string, status int) *Rule {
 	return &Rule{
-		httpStatus: status,
-		source:     sourceURI,
-		target:     targetURL,
+		HttpStatus: status,
+		Source:     sourceURI,
+		Target:     targetURL,
 	}
 }
 
@@ -26,8 +26,8 @@ func NewRule(sourceURI, targetURL string, status int) *Rule {
 func RewriteHandler(rules []*Rule) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		for _, rule := range rules {
-			if r.RequestURI == rule.source {
-				http.Redirect(w, r, rule.target, rule.httpStatus)
+			if r.RequestURI == rule.Source {
+				http.Redirect(w, r, rule.Target, rule.HttpStatus)
 				return
 			}
 		}
