@@ -20,10 +20,10 @@ func NewRule(sourceURI, targetURL string, status int) *Rule {
 	}
 }
 
-// RewriteHandler creates a rewriter whose purpose is to iterate on a slice of rules
-// find a matching URI and redirect to the destination
+// BaseHandler creates a rewriter whose purpose is to iterate on a slice of rules
+// find a matching URI and redirect to the destination URL.
 // Will return 404 if there is no match
-func RewriteHandler(rules []*Rule) http.Handler {
+func BaseHandler(rules []*Rule) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		for _, rule := range rules {
 			if r.RequestURI == rule.Source {

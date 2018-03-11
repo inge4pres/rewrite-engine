@@ -21,7 +21,7 @@ func TestRewriteRuleSuccessfulRedirection(t *testing.T) {
 	defer fakeServer.Close()
 	// set a rule to test
 	rule := NewRule("/test", fakeServer.URL, http.StatusMovedPermanently)
-	rewriter := RewriteHandler([]*Rule{rule})
+	rewriter := BaseHandler([]*Rule{rule})
 	server := httptest.NewServer(rewriter)
 	defer server.Close()
 	// perform the test request and assert
@@ -32,7 +32,7 @@ func TestRewriteRuleSuccessfulRedirection(t *testing.T) {
 
 func TestRewriteRuleNotFound(t *testing.T) {
 	rule := NewRule("/test", "/never-reached", http.StatusMovedPermanently)
-	rewriter := RewriteHandler([]*Rule{rule})
+	rewriter := BaseHandler([]*Rule{rule})
 	server := httptest.NewServer(rewriter)
 	defer server.Close()
 
